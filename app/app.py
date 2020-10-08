@@ -26,7 +26,3 @@ def increase():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    while True:
-        d = {'name': 'fakenerd', 'time_ms': int(time.time() * 1000)}
-        print(json.dumps(d))
-        time.sleep(60)
