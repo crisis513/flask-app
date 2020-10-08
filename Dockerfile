@@ -1,4 +1,4 @@
-FROM python
+FROM python:alpine
 
 RUN apk add --no-cache linux-headers build-base
 
