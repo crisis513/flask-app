@@ -7,6 +7,7 @@ FROM crisis513/flask-app:latest
 #RUN pip install -r /requirements.txt
 
 COPY ./app /app
+RUN touch /hello
 WORKDIR /app
 #RUN pip install flask
 
