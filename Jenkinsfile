@@ -1,9 +1,14 @@
 pipeline {
     environment {
-        registry = "crisis513/flask-app" 
+        registry = "crisis513/flask-app"
         registryCredential = 'crisis513'
         dockerImage = ''
+        releaseName = "flask-app"
+        helmChartRepo = "flask-kubernetes-helm"
+        //release_version = '${BUILD_NUMBER}'
+        release_version = 'latest'
     }
+    
     agent {
         label "jenkins-slave"
     }
@@ -16,7 +21,7 @@ pipeline {
         stage('Building docker image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":${release_version}"
                 }
             }
         }
@@ -31,16 +36,19 @@ pipeline {
         }
         stage('Cleaning up') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi $registry:${release_version}"
             }
         }
         stage('Deploy image to kubernetes') {
             steps {
+                //====== 이미 설치된 chart 인지 검사 =============
+				//String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
+				//if(out.contains("${releaseName}")) isExist = true
                 sh """
-                    helm upgrade --install flask-app flask-kubernetes-helm
+                    helm lint ${helmChartRepo}
+                    helm upgrade ${releaseName} ${helmChartRepo}
                 """
             }
         }
     }
 }
-

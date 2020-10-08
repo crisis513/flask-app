@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: crisis513/flask-helm
+  repository: crisis513/flask-app
   tag: latest
   pullPolicy: IfNotPresent
 
