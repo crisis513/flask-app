@@ -42,8 +42,8 @@ pipeline {
         stage('Deploy image to kubernetes') {
             steps {
                 //====== 이미 설치된 chart 인지 검사 =============
-				//String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
-				//if(out.contains("${releaseName}")) isExist = true
+			//String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
+			//if(out.contains("${releaseName}")) isExist = true
                 sh """
                     helm lint ${helmChartRepo}
                     helm upgrade ${releaseName} ${helmChartRepo}
